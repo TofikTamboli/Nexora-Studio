@@ -35,7 +35,6 @@ export const content: SiteContent = {
   ],
 
   bookingCTA: "BOOK A CALL",
-  eyebrow: "[INDEPENDENT DIGITAL AGENCY]",
 
   headline: {
     accessibleText: "We turn bold ideas into digital experiences that grow.",

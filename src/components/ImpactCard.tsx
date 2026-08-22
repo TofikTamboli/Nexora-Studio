@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
+import showreelMp4 from "../assets/nexora-showreel.mp4";
 
 const EASE_BEZIER = [0.22, 1, 0.36, 1] as const;
 
 interface ImpactCardProps {
-  headline: string;
-  description: string;
+  headline?: string;
+  description?: string;
   reducedMotion?: boolean;
+  canAnimate?: boolean;
   className?: string;
 }
 
 export const ImpactCard: React.FC<ImpactCardProps> = ({
-  headline,
-  description,
   reducedMotion = false,
+  canAnimate = true,
   className = "",
 }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if (!canAnimate) return;
+    videoRef.current?.play().catch(() => {
+      // Autoplay might be handled/deferred by browser
+    });
+  }, [canAnimate]);
+
   const cardVariants: Variants = {
     hidden: {
       opacity: reducedMotion ? 1 : 0,
@@ -34,18 +45,24 @@ export const ImpactCard: React.FC<ImpactCardProps> = ({
   return (
     <motion.div
       initial="hidden"
-      animate="visible"
+      animate={canAnimate ? "visible" : "hidden"}
       variants={cardVariants}
-      className={`impact-card ${className}`}
+      className={`impact-video-card ${className}`}
     >
-      <div className="flex flex-col">
-        <h2 className="impact-title whitespace-normal sm:whitespace-nowrap">
-          {headline}
-        </h2>
-        <p className="impact-subtext">
-          {description}
-        </p>
-      </div>
+      <video
+        ref={videoRef}
+        className={`impact-video ${isReady ? "is-ready" : ""}`}
+        onCanPlay={() => setIsReady(true)}
+        autoPlay={!reducedMotion}
+        muted
+        loop={!reducedMotion}
+        playsInline
+        preload="metadata"
+        aria-label="Nexora Studio creative showreel"
+      >
+        <source src={showreelMp4} type="video/mp4" />
+        Your browser does not support this video.
+      </video>
     </motion.div>
   );
 };

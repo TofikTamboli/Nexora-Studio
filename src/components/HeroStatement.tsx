@@ -5,19 +5,19 @@ import type { HeadlineConfig } from "../types";
 const EASE_BEZIER = [0.22, 1, 0.36, 1] as const;
 
 interface HeroStatementProps {
-  eyebrow: string;
   headline: HeadlineConfig;
   subheadline: string;
   subheadlineDesktopLines: string[];
   reducedMotion?: boolean;
+  canAnimate?: boolean;
 }
 
 export const HeroStatement: React.FC<HeroStatementProps> = ({
-  eyebrow,
   headline,
   subheadline,
   subheadlineDesktopLines,
   reducedMotion = false,
+  canAnimate = true,
 }) => {
   const containerVariants: Variants = {
     hidden: {},
@@ -60,36 +60,11 @@ export const HeroStatement: React.FC<HeroStatementProps> = ({
     },
   };
 
-  const eyebrowVariants: Variants = {
-    hidden: {
-      opacity: reducedMotion ? 1 : 0,
-      y: reducedMotion ? 0 : 16,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: reducedMotion ? 0 : 0.6,
-        delay: reducedMotion ? 0 : 0.05,
-        ease: EASE_BEZIER,
-      },
-    },
-  };
-
   return (
     <section
       aria-label="Agency Overview"
       className="hero-statement"
     >
-      {/* Eyebrow Label */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={eyebrowVariants}
-        className="hero-eyebrow"
-      >
-        <span>{eyebrow}</span>
-      </motion.div>
 
       {/* Screen Reader Accessible Single H1 */}
       <h1 className="sr-only">{headline.accessibleText}</h1>
@@ -97,7 +72,7 @@ export const HeroStatement: React.FC<HeroStatementProps> = ({
       {/* Visual Headline (Desktop: 4 lines with reveal wrappers; Mobile: fluid wrap) */}
       <motion.div
         initial="hidden"
-        animate="visible"
+        animate={canAnimate ? "visible" : "hidden"}
         variants={containerVariants}
         aria-hidden="true"
         className="hero-title"
@@ -107,7 +82,7 @@ export const HeroStatement: React.FC<HeroStatementProps> = ({
           {headline.desktopLines.map((line, index) => (
             <div
               key={index}
-              className="overflow-hidden pb-1 -mb-1"
+              className="overflow-hidden pb-4 -mb-4"
             >
               <motion.span
                 variants={lineVariants}
@@ -120,7 +95,7 @@ export const HeroStatement: React.FC<HeroStatementProps> = ({
         </div>
 
         {/* Mobile Fluid Wrapping */}
-        <div className="block md:hidden overflow-hidden">
+        <div className="block md:hidden overflow-hidden pb-3 -mb-3">
           <motion.div
             variants={lineVariants}
             className="font-sans font-normal text-[#090909]"
@@ -133,7 +108,7 @@ export const HeroStatement: React.FC<HeroStatementProps> = ({
       {/* Subheadline */}
       <motion.div
         initial="hidden"
-        animate="visible"
+        animate={canAnimate ? "visible" : "hidden"}
         variants={subheadlineVariants}
         className="hero-subheadline"
       >

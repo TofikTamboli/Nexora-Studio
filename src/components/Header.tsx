@@ -12,12 +12,14 @@ interface HeaderProps {
   navigation: NavigationItem[];
   bookingCTA: string;
   reducedMotion?: boolean;
+  canAnimate?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   navigation,
   bookingCTA,
   reducedMotion = false,
+  canAnimate = true,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
@@ -101,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <motion.header
       initial="hidden"
-      animate="visible"
+      animate={canAnimate ? "visible" : "hidden"}
       variants={headerVariants}
       className="site-header"
     >
@@ -141,15 +143,26 @@ export const Header: React.FC<HeaderProps> = ({
       {/* 3. Desktop Book-a-Call Button */}
       <a
         href="#contact"
-        className="book-call-button group"
+        className="book-call-button"
         aria-label="Book a call with Nexora Studio"
       >
-        <span>{bookingCTA}</span>
+        <span className="book-call-background" aria-hidden="true" />
+
+        <span className="book-call-content book-call-content-base">
+          <span>{bookingCTA}</span>
+          <span className="book-call-arrow" aria-hidden="true">
+            ↗
+          </span>
+        </span>
+
         <span
-          className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-hover:-translate-y-[3px]"
+          className="book-call-content book-call-content-inverse"
           aria-hidden="true"
         >
-          ↗
+          <span>{bookingCTA}</span>
+          <span className="book-call-arrow">
+            ↗
+          </span>
         </span>
       </a>
 

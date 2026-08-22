@@ -17,7 +17,7 @@ export interface SiteContent {
   brandDescriptor: string;
   navigation: NavigationItem[];
   bookingCTA: string;
-  eyebrow: string;
+  eyebrow?: string;
   headline: HeadlineConfig;
   subheadline: string;
   subheadlineDesktopLines: string[];

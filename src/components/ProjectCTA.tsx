@@ -7,6 +7,7 @@ interface ProjectCTAProps {
   label: string;
   href?: string;
   reducedMotion?: boolean;
+  canAnimate?: boolean;
   className?: string;
 }
 
@@ -14,6 +15,7 @@ export const ProjectCTA: React.FC<ProjectCTAProps> = ({
   label,
   href = "#contact",
   reducedMotion = false,
+  canAnimate = true,
   className = "",
 }) => {
   const ctaVariants: Variants = {
@@ -35,21 +37,35 @@ export const ProjectCTA: React.FC<ProjectCTAProps> = ({
   return (
     <motion.div
       initial="hidden"
-      animate="visible"
+      animate={canAnimate ? "visible" : "hidden"}
       variants={ctaVariants}
       className="project-cta-wrapper w-full select-none"
     >
       <a
         href={href}
-        className={`project-cta group ${className}`}
+        className={`project-cta ${className}`}
         aria-label="Discuss your project with Nexora Studio"
       >
-        <span className="flex items-center gap-3">
+        <span className="project-cta-background" aria-hidden="true" />
+
+        <span className="project-cta-content project-cta-content-base">
           <span>{label}</span>
+
           <span
-            className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-[6px]"
+            className="project-cta-arrow"
             aria-hidden="true"
           >
+            →
+          </span>
+        </span>
+
+        <span
+          className="project-cta-content project-cta-content-inverse"
+          aria-hidden="true"
+        >
+          <span>{label}</span>
+
+          <span className="project-cta-arrow">
             →
           </span>
         </span>

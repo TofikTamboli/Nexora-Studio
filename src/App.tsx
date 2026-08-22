@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { HeroLoader } from "./components/HeroLoader";
 import { HeroShader } from "./components/HeroShader";
 import { Header } from "./components/Header";
 import { HeroStatement } from "./components/HeroStatement";
@@ -9,6 +10,16 @@ import { content } from "./content";
 import { useReducedMotion } from "./hooks/useReducedMotion";
 
 export default function App() {
+  const [loaderComplete, setLoaderComplete] = useState(() => {
+    if (typeof window !== "undefined") {
+      try {
+        return sessionStorage.getItem("nexora-loader-played") === "true";
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  });
   const [fontsReady, setFontsReady] = useState(false);
   const reducedMotion = useReducedMotion();
 
@@ -23,63 +34,73 @@ export default function App() {
   }, []);
 
   return (
-    <main
-      id="top"
-      className="agency-hero"
-      style={{ opacity: fontsReady ? 1 : 0, transition: "opacity 0.2s ease-in" }}
-    >
-      {/* Background: WebGPU Shader Canvas */}
-      <HeroShader />
+    <>
+      <HeroLoader onComplete={() => setLoaderComplete(true)} />
 
-      {/* Foreground Content */}
-      <div className="hero-content">
-        <Header
-          brand={content.brand}
-          brandDescriptor={content.brandDescriptor}
-          navigation={content.navigation}
-          bookingCTA={content.bookingCTA}
-          reducedMotion={reducedMotion}
-        />
+      <main
+        id="top"
+        className="agency-hero"
+        data-loader-complete={loaderComplete}
+        style={{ opacity: fontsReady ? 1 : 0, transition: "opacity 0.2s ease-in" }}
+      >
+        {/* Background: WebGPU Shader Canvas */}
+        <HeroShader />
 
-        <section className="hero-layout">
-          <HeroStatement
-            eyebrow={content.eyebrow}
-            headline={content.headline}
-            subheadline={content.subheadline}
-            subheadlineDesktopLines={content.subheadlineDesktopLines}
+        {/* Foreground Content */}
+        <div className="hero-content">
+          <Header
+            brand={content.brand}
+            brandDescriptor={content.brandDescriptor}
+            navigation={content.navigation}
+            bookingCTA={content.bookingCTA}
             reducedMotion={reducedMotion}
+            canAnimate={loaderComplete}
           />
 
-          <aside
-            className="hero-right-column"
-            aria-label="Agency highlights"
-          >
-            <ImpactCard
-              headline={content.impactHeadline}
-              description={content.impactDescription}
+          <section className="hero-layout">
+            <HeroStatement
+              headline={content.headline}
+              subheadline={content.subheadline}
+              subheadlineDesktopLines={content.subheadlineDesktopLines}
               reducedMotion={reducedMotion}
+              canAnimate={loaderComplete}
             />
-            <AvailabilityCard
-              text={content.availability}
-              reducedMotion={reducedMotion}
-            />
-          </aside>
-        </section>
 
-        <ProjectCTA
-          label={content.primaryCTA}
-          href="#contact"
-          reducedMotion={reducedMotion}
-        />
+            <aside
+              className="hero-right-column"
+              aria-label="Agency highlights"
+            >
+              <ImpactCard
+                headline={content.impactHeadline}
+                description={content.impactDescription}
+                reducedMotion={reducedMotion}
+                canAnimate={loaderComplete}
+              />
+              <AvailabilityCard
+                text={content.availability}
+                reducedMotion={reducedMotion}
+                canAnimate={loaderComplete}
+              />
+            </aside>
+          </section>
 
-        {/* Semantic anchor targets */}
-        <div className="sr-only" aria-hidden="true">
-          <div id="work">Work Section</div>
-          <div id="services">Services Section</div>
-          <div id="about">About Section</div>
-          <div id="contact">Contact Section</div>
+          <ProjectCTA
+            label={content.primaryCTA}
+            href="#contact"
+            reducedMotion={reducedMotion}
+            canAnimate={loaderComplete}
+          />
+
+          {/* Semantic anchor targets */}
+          <div className="sr-only" aria-hidden="true">
+            <div id="work">Work Section</div>
+            <div id="services">Services Section</div>
+            <div id="about">About Section</div>
+            <div id="contact">Contact Section</div>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
+

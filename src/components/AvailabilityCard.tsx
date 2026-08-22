@@ -6,12 +6,14 @@ const EASE_BEZIER = [0.22, 1, 0.36, 1] as const;
 interface AvailabilityCardProps {
   text: string;
   reducedMotion?: boolean;
+  canAnimate?: boolean;
   className?: string;
 }
 
 export const AvailabilityCard: React.FC<AvailabilityCardProps> = ({
   text,
   reducedMotion = false,
+  canAnimate = true,
   className = "",
 }) => {
   const cardVariants: Variants = {
@@ -33,7 +35,7 @@ export const AvailabilityCard: React.FC<AvailabilityCardProps> = ({
   return (
     <motion.div
       initial="hidden"
-      animate="visible"
+      animate={canAnimate ? "visible" : "hidden"}
       variants={cardVariants}
       className={`availability-card ${className}`}
     >
