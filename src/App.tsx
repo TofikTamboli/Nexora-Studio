@@ -6,6 +6,7 @@ import { HeroStatement } from "./components/HeroStatement";
 import { ImpactCard } from "./components/ImpactCard";
 import { AvailabilityCard } from "./components/AvailabilityCard";
 import { ProjectCTA } from "./components/ProjectCTA";
+import { WorkSection } from "./components/work/WorkSection";
 import { content } from "./content";
 import { useReducedMotion } from "./hooks/useReducedMotion";
 
@@ -93,13 +94,14 @@ export default function App() {
 
           {/* Semantic anchor targets */}
           <div className="sr-only" aria-hidden="true">
-            <div id="work">Work Section</div>
             <div id="services">Services Section</div>
             <div id="about">About Section</div>
             <div id="contact">Contact Section</div>
           </div>
         </div>
       </main>
+
+      <WorkSection />
     </>
   );
 }
