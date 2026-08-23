@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { HeroLoader } from "./components/HeroLoader";
 import { HeroShader } from "./components/HeroShader";
 import { Header } from "./components/Header";
@@ -9,6 +9,7 @@ import { ProjectCTA } from "./components/ProjectCTA";
 import { WorkSection } from "./components/work/WorkSection";
 import { content } from "./content";
 import { useReducedMotion } from "./hooks/useReducedMotion";
+import { useScrollTransition } from "./hooks/useScrollTransition";
 
 export default function App() {
   const [loaderComplete, setLoaderComplete] = useState(() => {
@@ -23,6 +24,16 @@ export default function App() {
   });
   const [fontsReady, setFontsReady] = useState(false);
   const reducedMotion = useReducedMotion();
+
+  const heroRef = useRef<HTMLElement>(null);
+  const workRef = useRef<HTMLElement>(null);
+
+  useScrollTransition({
+    heroRef,
+    workRef,
+    reducedMotion,
+    isReady: loaderComplete && fontsReady,
+  });
 
   useEffect(() => {
     if (typeof document !== "undefined" && "fonts" in document) {
@@ -40,6 +51,7 @@ export default function App() {
 
       <main
         id="top"
+        ref={heroRef}
         className="agency-hero"
         data-loader-complete={loaderComplete}
         style={{ opacity: fontsReady ? 1 : 0, transition: "opacity 0.2s ease-in" }}
@@ -101,7 +113,7 @@ export default function App() {
         </div>
       </main>
 
-      <WorkSection />
+      <WorkSection ref={workRef} />
     </>
   );
 }

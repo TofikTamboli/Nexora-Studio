@@ -7,6 +7,8 @@ export type WorkProject = {
   image: string;
   href: string;
   theme: "light" | "dark";
+  aspectRatio?: string;
+  altText: string;
 };
 
 export const topRowProjects: WorkProject[] = [
@@ -19,6 +21,8 @@ export const topRowProjects: WorkProject[] = [
     image: "/work/solapur-cbct.webp",
     href: "#contact",
     theme: "light",
+    aspectRatio: "4 / 5",
+    altText: "Solapur CBCT healthcare imaging and diagnostic platform interface showcase",
   },
   {
     id: "horizon-lands",
@@ -29,6 +33,8 @@ export const topRowProjects: WorkProject[] = [
     image: "/work/horizon-lands.webp",
     href: "#contact",
     theme: "light",
+    aspectRatio: "1 / 1",
+    altText: "Horizon Lands interactive luxury real estate visual showcase",
   },
   {
     id: "reviewpilot",
@@ -39,6 +45,8 @@ export const topRowProjects: WorkProject[] = [
     image: "/work/reviewpilot.webp",
     href: "#contact",
     theme: "dark",
+    aspectRatio: "3 / 4",
+    altText: "ReviewPilot autonomous AI developer code review dashboard",
   },
 ];
 
@@ -52,6 +60,8 @@ export const bottomRowProjects: WorkProject[] = [
     image: "/work/ashiyana-digital.webp",
     href: "#contact",
     theme: "light",
+    aspectRatio: "4 / 3",
+    altText: "Ashiyana Digital service branding and web platform interface",
   },
   {
     id: "growtha-ai",
@@ -62,6 +72,8 @@ export const bottomRowProjects: WorkProject[] = [
     image: "/work/growtha-ai.webp",
     href: "#contact",
     theme: "light",
+    aspectRatio: "5 / 7",
+    altText: "Growtha AI high-conversion agentic marketing platform",
   },
   {
     id: "nexora-labs",
@@ -72,5 +84,12 @@ export const bottomRowProjects: WorkProject[] = [
     image: "/work/nexora-labs.webp",
     href: "#contact",
     theme: "dark",
+    aspectRatio: "1 / 1",
+    altText: "Nexora Labs creative interactive web experiments and shaders",
   },
+];
+
+export const allProjects: WorkProject[] = [
+  ...topRowProjects,
+  ...bottomRowProjects,
 ];

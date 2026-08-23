@@ -46,10 +46,10 @@ export const AvailabilityCard: React.FC<AvailabilityCardProps> = ({
       {/* Pulsing Status Dot (12px) */}
       <div className="relative flex items-center justify-center shrink-0 w-3.5 h-3.5">
         {reducedMotion ? (
-          <div className="w-[12px] h-[12px] rounded-full bg-[#22c55e]" />
+          <div className="w-3 h-3 rounded-full bg-[#22c55e]" />
         ) : (
           <motion.div
-            className="w-[12px] h-[12px] rounded-full bg-[#22c55e]"
+            className="w-3 h-3 rounded-full bg-[#22c55e]"
             animate={{
               scale: [1, 1.25, 1],
               opacity: [1, 0.65, 1],
